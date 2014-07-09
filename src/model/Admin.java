@@ -33,7 +33,10 @@ public class Admin {
 			Connection c = DriverManager.getConnection(
 					"jdbc:mysql://localhost/Gang_Authority", "Goomoonryong", "murim");
 			Statement st = c.createStatement();
-			String req = "select * from signalement";
+			String req = "select idSignalement, Signalement_idCompte, pseudo, justification "
+					+ "from signalement "
+					+ "join joueur "
+					+ "on joueur.idCompte = signalement.Signalement_idCompte";
 			ResultSet rs = st.executeQuery(req);
 			return rs;
 		} catch (Exception e) {

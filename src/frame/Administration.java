@@ -83,19 +83,23 @@ public class Administration extends JFrame {
 		try{
 			ResultSet rs = Admin.afficherJoueurSignales();
 			DefaultListModel<String> dlm = new DefaultListModel<String>();
+			final ArrayList<String> pseudo = new ArrayList<String>();
+			final ArrayList<String> description = new ArrayList<String>();
 			final ArrayList<Integer> idSignalement = new ArrayList<Integer>();
 			final ArrayList<Integer> idCompte = new ArrayList<Integer>();
 			while(rs.next()){
+				pseudo.add(rs.getString("pseudo"));
+				dlm.addElement(rs.getString("pseudo"));
+				description.add(rs.getString("justification"));
 				idSignalement.add(rs.getInt("idSignalement"));
 				idCompte.add(rs.getInt("Signalement_idCompte"));
-				dlm.addElement(rs.getInt("idSignalement") + ": " + rs.getString("Justification") + "->" + rs.getInt("Signalement_idCompte"));
 			}
 			final JList<String> list = new JList<String>(dlm);
-			list.setBounds(24, 82, 232, 172);
+			list.setBounds(24, 82, 232, 97);
 			contentPane.add(list);
 			
 			final JTextField textField = new JTextField();
-			textField.setBounds(278, 110, 134, 28);
+			textField.setBounds(282, 121, 134, 28);
 			contentPane.add(textField);
 			textField.setColumns(10);
 			
@@ -113,12 +117,26 @@ public class Administration extends JFrame {
 					}
 				}
 			});
-			btnBannir.setBounds(268, 163, 165, 53);
+			btnBannir.setBounds(268, 161, 165, 53);
 			contentPane.add(btnBannir);
+			
+			final JLabel lblDescription = new JLabel("");
+			lblDescription.setBounds(24, 239, 409, 16);
+			contentPane.add(lblDescription);
+			
+			JButton btnVoir = new JButton("Voir");
+			btnVoir.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					lblDescription.setText(description.get(list.getSelectedIndex()));
+				}
+			});
+			btnVoir.setBounds(85, 191, 117, 29);
+			contentPane.add(btnVoir);
 			
 		}catch(Exception e){
 			final JList<String> list = new JList<String>();
-			list.setBounds(24, 62, 232, 192);
+			list.setBounds(24, 82, 232, 97);
 			
 			contentPane.add(list);
 			
@@ -131,16 +149,21 @@ public class Administration extends JFrame {
 			});
 			btnBannir.setBounds(268, 163, 165, 53);
 			contentPane.add(btnBannir);
+			
+			JButton btnVoir = new JButton("Voir");
+			btnVoir.setBounds(85, 191, 117, 29);
+			contentPane.add(btnVoir);
 		}
 		
 		
 		JLabel lblJoueursSignals = new JLabel("Joueurs signal\u00E9s");
-		lblJoueursSignals.setBounds(61, 54, 182, 16);
+		lblJoueursSignals.setBounds(74, 54, 182, 16);
 		contentPane.add(lblJoueursSignals);
 		
 		
 		JLabel lblDureDuBannissement = new JLabel("Dur\u00E9e du bannissement");
-		lblDureDuBannissement.setBounds(268, 82, 165, 16);
+		lblDureDuBannissement.setBounds(268, 93, 165, 16);
 		contentPane.add(lblDureDuBannissement);
+		
 	}
 }
